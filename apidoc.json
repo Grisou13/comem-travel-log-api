@@ -1,9 +1,9 @@
 {
-  "name": "Travel Log API",
+  "name": "Trek Tracks API",
   "version": "1.0.0",
   "description": "A sample API to develop a mobile application",
-  "title": "Travel Log API",
-  "url" : "https://comem-travel-log-api.onrender.com",
+  "title": "Trek Tracks API",
+  "url" : "https://trek-traks-api.onrender.com/",
   "header": {
     "title": "Getting Started",
     "filename": "API.md"
