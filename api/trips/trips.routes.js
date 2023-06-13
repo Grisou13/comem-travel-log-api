@@ -349,6 +349,7 @@ router.delete(
  * @apiParam (JSON Request Body) {Date} startDate The day the trip starts on location.
  * @apiParam (JSON Request Body) {Date} endDate The day the trip ends on location.
  * @apiParam (JSON Request Body) {[TransportMethod](#api-Custom-TransportMethod)} transportMethod Method of transportation to this location.
+ * @apiParam (JSON Request Body) {Number{0}} totalDistance The total distance for this trip (is used to memorize the distance for all places making budgetting easier).
  * @apiSuccess (JSON Response Body) {Number} placesCount The number of places in the trip.
  * @apiSuccess (JSON Response Body) {String{36}} userId The unique identifier of the user who created the trip.
  * @apiSuccess (JSON Response Body) {String{47}} userHref A hyperlink reference to the user who created the trip.

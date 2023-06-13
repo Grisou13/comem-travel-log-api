@@ -57,10 +57,10 @@ tripSchema.methods.toJSON = function (options = {}) {
       "description",
       "placesCount",
       "budget",
-      "totalDistance",
       "startDate",
       "endDate",
       "transportMethod",
+      "totalDistance",
       "userId",
       "userHref",
       "createdAt",
@@ -83,10 +83,10 @@ tripSchema.statics.editableProperties = [
   "title",
   "description",
   "budget",
-  "totalDistance",
   "startDate",
   "endDate",
   "transportMethod",
+  "totalDistance",
 ];
 
 // Cascade delete
