@@ -16,8 +16,7 @@ const {
 
 const Schema = mongoose.Schema;
 const placeLogger = config.logger("place");
-
-const placeSchema = new Schema({
+const def = {
   name: {
     type: String,
     required: true,
@@ -74,7 +73,8 @@ const placeSchema = new Schema({
     enum: ["PlaceOfInterest", "TripStop"],
     default: "TripStop",
   },
-});
+};
+const placeSchema = new Schema(def);
 
 placeSchema.index({ location: "2dsphere" });
 
@@ -91,16 +91,7 @@ placeSchema.methods.toJSON = function (options = {}) {
     ...pick(
       this,
       "href",
-      "type",
-      "name",
-      "description",
-      "location",
-      "pictureUrl",
-      "budget",
-      "directions",
-      "startDate",
-      "endDate",
-      "transportMethod",
+      ...Object.keys(def),
       "tripId",
       "tripHref",
       "createdAt",
@@ -122,20 +113,7 @@ placeSchema.methods.toJSON = function (options = {}) {
 };
 
 placeSchema.statics.apiResource = "/api/places";
-placeSchema.statics.editableProperties = [
-  "name",
-  "description",
-  "type",
-  "location",
-  "pictureUrl",
-  "budget",
-  "directions",
-  "startDate",
-  "endDate",
-  "transportMethod",
-  "tripId",
-  "tripHref",
-];
+placeSchema.statics.editableProperties = Object.keys(def);
 
 async function validateNameAvailable(value) {
   if (!value || !this.trip) {

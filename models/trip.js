@@ -16,8 +16,7 @@ const {
 
 const Schema = mongoose.Schema;
 const tripLogger = config.logger("trip");
-
-const tripSchema = new Schema({
+const def = {
   title: {
     type: String,
     required: true,
@@ -37,7 +36,8 @@ const tripSchema = new Schema({
     default: 0,
   },
   ...common,
-});
+};
+const tripSchema = new Schema(def);
 
 tripSchema.plugin(apiIdPlugin);
 tripSchema.plugin(hrefPlugin);
@@ -53,14 +53,7 @@ tripSchema.methods.toJSON = function (options = {}) {
     ...pick(
       this,
       "href",
-      "title",
-      "description",
-      "placesCount",
-      "budget",
-      "startDate",
-      "endDate",
-      "transportMethod",
-      "totalDistance",
+      ...Object.keys(def),
       "userId",
       "userHref",
       "createdAt",
@@ -79,15 +72,7 @@ tripSchema.methods.toJSON = function (options = {}) {
 };
 
 tripSchema.statics.apiResource = "/api/trips";
-tripSchema.statics.editableProperties = [
-  "title",
-  "description",
-  "budget",
-  "startDate",
-  "endDate",
-  "transportMethod",
-  "totalDistance",
-];
+tripSchema.statics.editableProperties = Object.keys(def);
 
 // Cascade delete
 tripSchema.pre("remove", async function () {
