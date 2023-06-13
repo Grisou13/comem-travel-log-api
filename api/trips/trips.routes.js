@@ -1,7 +1,15 @@
-const express = require('express');
+const express = require("express");
 
-const { canModify, createTrip, loadTripById, removeTrip, retrieveAllTrips, retrieveTrip, updateTrip } = require('./trips.api');
-const { authenticate, authorize } = require('../../utils/auth');
+const {
+  canModify,
+  createTrip,
+  loadTripById,
+  removeTrip,
+  retrieveAllTrips,
+  retrieveTrip,
+  updateTrip,
+} = require("./trips.api");
+const { authenticate, authorize } = require("../../utils/auth");
 
 const router = express.Router();
 
@@ -22,7 +30,7 @@ const router = express.Router();
  * @apiParam (JSON Request Body) {String{5..50000}} description A detailed description of the trip.
  *
  * @apiParamExample {request} Request Example
- *     POST https://comem-travel-log-api.onrender.com/api/trips HTTP/1.1
+ *     POST https://trek-traks-api.onrender.com/api/trips HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -33,7 +41,7 @@ const router = express.Router();
  * @apiSuccessExample {json} 201 Created:
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-travel-log-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf
+ *     Location: https://trek-traks-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf
  *
  *     {
  *       "createdAt": "2018-12-09T11:58:18.265Z",
@@ -85,9 +93,7 @@ const router = express.Router();
  *       "message": "Trip validation failed: description: Path `description` is required., title: Path `title` (`s`) is shorter than the minimum allowed length (3)."
  *     }
  */
-router.post('/',
-  authenticate,
-  createTrip);
+router.post("/", authenticate, createTrip);
 
 /**
  * @api {get} /api/trips List or search trips
@@ -95,7 +101,7 @@ router.post('/',
  * @apiGroup Trips
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/trips HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/trips HTTP/1.1
  *
  * @apiUse IdentifiedResource
  * @apiUse Pagination
@@ -121,8 +127,8 @@ router.post('/',
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: <https://comem-travel-log-api.onrender.com/api/trips?pageSize=50&page=2>; rel="self last",
- *           <https://comem-travel-log-api.onrender.com/api/trips?pageSize=50&page=1>; rel="first prev"
+ *     Link: <https://trek-traks-api.onrender.com/api/trips?pageSize=50&page=2>; rel="self last",
+ *           <https://trek-traks-api.onrender.com/api/trips?pageSize=50&page=1>; rel="first prev"
  *     Pagination-Page: 2
  *     Pagination-PageSize: 50
  *     Pagination-Total: 52
@@ -165,8 +171,7 @@ router.post('/',
  *       "queryParam": "pageSize"
  *     }
  */
-router.get('/',
-  retrieveAllTrips);
+router.get("/", retrieveAllTrips);
 
 /**
  * @api {get} /api/trips/:id Retrieve one trip
@@ -178,7 +183,7 @@ router.get('/',
  * @apiUse TripResponseBody
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
  *
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
@@ -207,9 +212,7 @@ router.get('/',
  *       "message": "No trip found with ID foo"
  *     }
  */
-router.get('/:id',
-  loadTripById,
-  retrieveTrip);
+router.get("/:id", loadTripById, retrieveTrip);
 
 /**
  * @api {patch} /api/trips/:id Update a trip
@@ -231,7 +234,7 @@ router.get('/:id',
  * @apiParam (JSON Request Body) {String{5..50000}} [description] A detailed description of the trip.
  *
  * @apiParamExample {request} Request Example
- *     PATCH https://comem-travel-log-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
+ *     PATCH https://trek-traks-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -281,11 +284,13 @@ router.get('/:id',
  *       "message": "Trip validation failed: title: Path `title` (`s`) is shorter than the minimum allowed length (3)."
  *     }
  */
-router.patch('/:id',
+router.patch(
+  "/:id",
   authenticate,
   loadTripById,
   authorize(canModify),
-  updateTrip);
+  updateTrip
+);
 
 /**
  * @api {delete} /api/trips/:id Delete a trip
@@ -302,7 +307,7 @@ router.patch('/:id',
  * @apiUse ProtectedResource
  *
  * @apiParamExample {request} Request Example
- *     DELETE https://comem-travel-log-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
+ *     DELETE https://trek-traks-api.onrender.com/api/trips/7f063c6e-7717-401a-aa47-34a52f6a45cf HTTP/1.1
  *
  * @apiSuccessExample {json} 204 No Content:
  *     HTTP/1.1 204 No Content
@@ -318,11 +323,13 @@ router.patch('/:id',
  *       "message": "No trip found with ID foo"
  *     }
  */
-router.delete('/:id',
+router.delete(
+  "/:id",
   authenticate,
   loadTripById,
   authorize(canModify),
-  removeTrip);
+  removeTrip
+);
 
 /**
  * @apiDefine TripIncludes
@@ -338,6 +345,10 @@ router.delete('/:id',
  * @apiSuccess (JSON Response Body) {String{47}} href Hyperlink reference to the trip.
  * @apiSuccess (JSON Response Body) {String{3..100}} title Unique title of the trip.
  * @apiSuccess (JSON Response Body) {String{5..50000}} description A detailed description of the trip.
+ * @apiParam (JSON Request Body) {Number{0}} budget A budget set for the location.
+ * @apiParam (JSON Request Body) {Date} startDate The day the trip starts on location.
+ * @apiParam (JSON Request Body) {Date} endDate The day the trip ends on location.
+ * @apiParam (JSON Request Body) {[TransportMethod](#api-Custom-TransportMethod)} transportMethod Method of transportation to this location.
  * @apiSuccess (JSON Response Body) {Number} placesCount The number of places in the trip.
  * @apiSuccess (JSON Response Body) {String{36}} userId The unique identifier of the user who created the trip.
  * @apiSuccess (JSON Response Body) {String{47}} userHref A hyperlink reference to the user who created the trip.

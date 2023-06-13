@@ -4,6 +4,7 @@ const uniqueValidatorPlugin = require("mongoose-unique-validator");
 
 const config = require("../config");
 const { includeRequested } = require("../utils/api");
+const common = require("./common");
 const {
   apiIdPlugin,
   hrefPlugin,
@@ -25,35 +26,17 @@ const tripSchema = new Schema({
     minlength: 3,
     maxlength: 100,
   },
-  startDate: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-    default: null,
-  },
-  budget: {
-    type: Number,
-    default: 0,
-  },
-  totalDistance: Number,
-  transportMethod: {
-    transportType: {
-      type: String,
-      enum: ["van", "car", "plane"],
-      default: "car",
-    },
-    price: Number,
-  },
   description: {
     type: String,
     required: true,
     minlength: 5,
     maxlength: 50000,
   },
+  totalDistance: {
+    type: Number,
+    default: 0,
+  },
+  ...common,
 });
 
 tripSchema.plugin(apiIdPlugin);
@@ -73,6 +56,11 @@ tripSchema.methods.toJSON = function (options = {}) {
       "title",
       "description",
       "placesCount",
+      "budget",
+      "totalDistance",
+      "startDate",
+      "endDate",
+      "transportMethod",
       "userId",
       "userHref",
       "createdAt",
@@ -91,7 +79,15 @@ tripSchema.methods.toJSON = function (options = {}) {
 };
 
 tripSchema.statics.apiResource = "/api/trips";
-tripSchema.statics.editableProperties = ["title", "description"];
+tripSchema.statics.editableProperties = [
+  "title",
+  "description",
+  "budget",
+  "totalDistance",
+  "startDate",
+  "endDate",
+  "transportMethod",
+];
 
 // Cascade delete
 tripSchema.pre("remove", async function () {

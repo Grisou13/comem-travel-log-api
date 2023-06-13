@@ -1,9 +1,35 @@
-const express = require('express');
+const express = require("express");
 
-const { canModify, createPlace, loadPlaceById, removePlace, retrieveAllPlaces, retrievePlace, updatePlace } = require('./places.api');
-const { authenticate, authorize } = require('../../utils/auth');
+const {
+  canModify,
+  createPlace,
+  loadPlaceById,
+  removePlace,
+  retrieveAllPlaces,
+  retrievePlace,
+  updatePlace,
+} = require("./places.api");
+const { authenticate, authorize } = require("../../utils/auth");
 
 const router = express.Router();
+/**
+ * @api {OBJECT} TransportMethod TransportMethod
+ * @apiName TransportMethod
+ * @apiGroup Custom
+ *
+ * @apiParam {String="van","car","place"} transportType Type of transport used to go to place
+ * @apiParam {Number} pricePerUnit Price for the unit that has been resolved
+ * @apiParam {String="km","flight","trip"} unit The resolved unit of choice
+ */
+/**
+ * @api {OBJECT} Directions Directions
+ * @apiName Directions
+ * @apiGroup Custom
+ *
+ * @apiParam {Object} previous Directions to previous place
+ * @apiParam {Number} distance Distance used from point to point
+ * @apiParam {Object} next Directions to next place
+ */
 
 /**
  * @api {post} /api/places Create a new place
@@ -22,13 +48,19 @@ const router = express.Router();
  *
  * @apiParam (JSON Request Body) {String{3..100}} name Name of the place. Must be unique within the trip.
  * @apiParam (JSON Request Body) {String{5..50000}} description A detailed description of the place.
+ * @apiParam (JSON Request Body) {Number{0}} budget A budget set for the location.
+ * @apiParam (JSON Request Body) {Date} startDate The day the trip starts on location.
+ * @apiParam (JSON Request Body) {Date} endDate The day the trip ends on location.
+ * @apiParam (JSON Request Body) {[TransportMethod](#api-Custom-TransportMethod)} transportMethod Method of transportation to this location.
+ * @apiParam (JSON Request Body) {[Directions](#api-Custom-Directions)} directions Method of transportation to this location.
+ * @apiParam (JSON Request Body) {String="TripStop","PlaceOfInterest"} type Type of place
  * @apiParam (JSON Request Body) {GeoJsonPoint} location A GeoJSON point indicating the geographical location of the place.
  * @apiParam (JSON Request Body) {String} [tripHref] A hyperlink reference to the trip during which the place was visited. **Either this or `tripId` is mandatory.**
  * @apiParam (JSON Request Body) {String} [tripId] The identifier of the trip during which the place was visited. **Either this or `tripHref` is mandatory.**
  * @apiParam (JSON Request Body) {String{10..500}} [pictureUrl] A URL to a picture of the place.
  *
  * @apiParamExample {request} Request Example
- *     POST https://comem-travel-log-api.onrender.com/api/places HTTP/1.1
+ *     POST https://trek-traks-api.onrender.com/api/places HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -39,7 +71,7 @@ const router = express.Router();
  * @apiSuccessExample {json} 201 Created:
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-travel-log-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb
+ *     Location: https://trek-traks-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb
  *
  *     {
  *       "createdAt": "2018-12-09T17:20:22.030Z",
@@ -97,9 +129,7 @@ const router = express.Router();
  *       "message": "Place validation failed: name: Path `name` (`s`) is shorter than the minimum allowed length (3)., location.coordinates: Coordinates must be an array of 2 to 3 numbers: longitude (between -180 and 180) and latitude (between -90 and 90) and an optional altitude"
  *     }
  */
-router.post('/',
-  authenticate,
-  createPlace);
+router.post("/", authenticate, createPlace);
 
 /**
  * @api {get} /api/places List or search places
@@ -107,7 +137,7 @@ router.post('/',
  * @apiGroup Places
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/places HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/places HTTP/1.1
  *
  * @apiUse IdentifiedResource
  * @apiUse Pagination
@@ -139,8 +169,8 @@ router.post('/',
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: <https://comem-travel-log-api.onrender.com/api/places?pageSize=50&page=2>; rel="self last",
- *           <https://comem-travel-log-api.onrender.com/api/places?pageSize=50&page=1>; rel="first prev"
+ *     Link: <https://trek-traks-api.onrender.com/api/places?pageSize=50&page=2>; rel="self last",
+ *           <https://trek-traks-api.onrender.com/api/places?pageSize=50&page=1>; rel="first prev"
  *     Pagination-Page: 2
  *     Pagination-PageSize: 50
  *     Pagination-Total: 52
@@ -190,8 +220,7 @@ router.post('/',
  *       "queryParam": "pageSize"
  *     }
  */
-router.get('/',
-  retrieveAllPlaces);
+router.get("/", retrieveAllPlaces);
 
 /**
  * @api {get} /api/places/:id Retrieve one place
@@ -203,7 +232,7 @@ router.get('/',
  * @apiUse PlaceResponseBody
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
  *
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
@@ -236,9 +265,7 @@ router.get('/',
  *       "message": "No place found with ID foo"
  *     }
  */
-router.get('/:id',
-  loadPlaceById,
-  retrievePlace);
+router.get("/:id", loadPlaceById, retrievePlace);
 
 /**
  * @api {patch} /api/places/:id Update a place
@@ -264,7 +291,7 @@ router.get('/:id',
  * @apiParam (JSON Request Body) {String{10..500}} [pictureUrl] A URL to a picture of the place.
  *
  * @apiParamExample {request} Request Example
- *     PATCH https://comem-travel-log-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
+ *     PATCH https://trek-traks-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -319,11 +346,13 @@ router.get('/:id',
  *       "message": "Place validation failed: name: Path `name` (`s`) is shorter than the minimum allowed length (3)."
  *     }
  */
-router.patch('/:id',
+router.patch(
+  "/:id",
   authenticate,
   loadPlaceById,
   authorize(canModify),
-  updatePlace);
+  updatePlace
+);
 
 /**
  * @api {delete} /api/places/:id Delete a place
@@ -340,7 +369,7 @@ router.patch('/:id',
  * @apiUse ProtectedResource
  *
  * @apiParamExample {request} Request Example
- *     DELETE https://comem-travel-log-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
+ *     DELETE https://trek-traks-api.onrender.com/api/places/0860ab21-98e8-4cdd-a407-06d2a50989eb HTTP/1.1
  *
  * @apiSuccessExample {json} 204 No Content:
  *     HTTP/1.1 204 No Content
@@ -356,11 +385,13 @@ router.patch('/:id',
  *       "message": "No place found with ID foo"
  *     }
  */
-router.delete('/:id',
+router.delete(
+  "/:id",
   authenticate,
   loadPlaceById,
   authorize(canModify),
-  removePlace);
+  removePlace
+);
 
 /**
  * @apiDefine PlaceIncludes

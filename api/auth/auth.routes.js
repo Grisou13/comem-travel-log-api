@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 
-const { createAuthenticationToken } = require('./auth.api');
+const { createAuthenticationToken } = require("./auth.api");
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ const router = express.Router();
  * @apiParam (JSON Request Body) {String} password The password of the user.
  *
  * @apiParamExample {request} Request Example
- *     POST https://comem-travel-log-api.onrender.com/api/auth HTTP/1.1
+ *     POST https://trek-traks-api.onrender.com/api/auth HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -81,6 +81,6 @@ const router = express.Router();
  *       "message": "Password is incorrect"
  *     }
  */
-router.post('/', createAuthenticationToken);
+router.post("/", createAuthenticationToken);
 
 module.exports = router;

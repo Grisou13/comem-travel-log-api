@@ -1,8 +1,16 @@
-const express = require('express');
+const express = require("express");
 
-const { canModify, createUser, loadUserById, removeUser, retrieveAllUsers, retrieveUser, updateUser } = require('./users.api');
-const { requireJson } = require('../../utils/api');
-const { authenticate, authorize } = require('../../utils/auth');
+const {
+  canModify,
+  createUser,
+  loadUserById,
+  removeUser,
+  retrieveAllUsers,
+  retrieveUser,
+  updateUser,
+} = require("./users.api");
+const { requireJson } = require("../../utils/api");
+const { authenticate, authorize } = require("../../utils/auth");
 
 const router = express.Router();
 
@@ -19,7 +27,7 @@ const router = express.Router();
  * @apiParam (JSON Request Body) {String{4..}} password The password the user will use to log in.
  *
  * @apiParamExample {request} Request Example
- *     POST https://comem-travel-log-api.onrender.com/api/users HTTP/1.1
+ *     POST https://trek-traks-api.onrender.com/api/users HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -30,7 +38,7 @@ const router = express.Router();
  * @apiSuccessExample {json} 201 Created:
  *     HTTP/1.1 201 Created
  *     Content-Type: application/json
- *     Location: https://comem-travel-log-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23
+ *     Location: https://trek-traks-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23
  *
  *     {
  *       "createdAt": "2018-12-09T11:58:18.265Z",
@@ -81,9 +89,7 @@ const router = express.Router();
  *       "message": "User validation failed: password: Path `password` is required, name: Path `name` is invalid (---)."
  *     }
  */
-router.post('/',
-  requireJson,
-  createUser);
+router.post("/", requireJson, createUser);
 
 /**
  * @api {get} /api/users List or search user accounts
@@ -91,7 +97,7 @@ router.post('/',
  * @apiGroup Users
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/users HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/users HTTP/1.1
  *
  * @apiUse IdentifiedResource
  * @apiUse Pagination
@@ -113,8 +119,8 @@ router.post('/',
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
  *     Content-Type: application/json
- *     Link: <https://comem-travel-log-api.onrender.com/api/users?pageSize=50&page=2>; rel="self last",
- *           <https://comem-travel-log-api.onrender.com/api/users?pageSize=50&page=1>; rel="first prev"
+ *     Link: <https://trek-traks-api.onrender.com/api/users?pageSize=50&page=2>; rel="self last",
+ *           <https://trek-traks-api.onrender.com/api/users?pageSize=50&page=1>; rel="first prev"
  *     Pagination-Page: 2
  *     Pagination-PageSize: 50
  *     Pagination-Total: 52
@@ -151,8 +157,7 @@ router.post('/',
  *       "queryParam": "pageSize"
  *     }
  */
-router.get('/',
-  retrieveAllUsers);
+router.get("/", retrieveAllUsers);
 
 /**
  * @api {get} /api/users/:id Retrieve one user account
@@ -163,7 +168,7 @@ router.get('/',
  * @apiUse UserResponseBody
  *
  * @apiParamExample {request} Request Example
- *     GET https://comem-travel-log-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
+ *     GET https://trek-traks-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
  *
  * @apiSuccessExample {json} 200 OK:
  *     HTTP/1.1 200 OK
@@ -189,9 +194,7 @@ router.get('/',
  *       "message": "No user found with ID foo"
  *     }
  */
-router.get('/:id',
-  loadUserById,
-  retrieveUser);
+router.get("/:id", loadUserById, retrieveUser);
 
 /**
  * @api {patch} /api/users/:id Update a user account
@@ -212,7 +215,7 @@ router.get('/:id',
  * @apiParam (JSON Request Body) {String{4..}} [password] The password the user will use to log in.
  *
  * @apiParamExample {request} Request Example
- *     PATCH https://comem-travel-log-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
+ *     PATCH https://trek-traks-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
  *     Content-Type: application/json
  *
  *     {
@@ -259,12 +262,14 @@ router.get('/:id',
  *       "message": "User validation failed: name: Path `name` is invalid (---)."
  *     }
  */
-router.patch('/:id',
+router.patch(
+  "/:id",
   authenticate,
   loadUserById,
   authorize(canModify),
   requireJson,
-  updateUser);
+  updateUser
+);
 
 /**
  * @api {delete} /api/users/:id Delete a user account
@@ -281,7 +286,7 @@ router.patch('/:id',
  * @apiUse ProtectedResource
  *
  * @apiParamExample {request} Request Example
- *     DELETE https://comem-travel-log-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
+ *     DELETE https://trek-traks-api.onrender.com/api/users/d68cf4e9-1349-4d45-b356-c1294e49ef23 HTTP/1.1
  *
  * @apiSuccessExample {json} 204 No Content:
  *     HTTP/1.1 204 No Content
@@ -297,11 +302,13 @@ router.patch('/:id',
  *       "message": "No user found with ID foo"
  *     }
  */
-router.delete('/:id',
+router.delete(
+  "/:id",
   authenticate,
   loadUserById,
   authorize(canModify),
-  removeUser);
+  removeUser
+);
 
 /**
  * @apiDefine UserResponseBody
