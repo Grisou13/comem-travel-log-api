@@ -68,7 +68,7 @@ exports.retrieveAllPlaces = route(async (req, res) => {
 
   res.send(
     places
-      .filter((p) => p.tripId === null || typeof p.tripId === "undefined") //when we search we want only to search all the non trip related ones
+      //.filter((p) => p.tripId === null || typeof p.tripId === "undefined") //when we search we want only to search all the non trip related ones
       .map((place) => place.toJSON({ req }))
   );
 });
