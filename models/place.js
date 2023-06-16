@@ -28,6 +28,10 @@ const def = {
       type: "unique",
     },
   },
+  order: {
+    type: Number,
+    default: 0,
+  },
   description: {
     type: String,
     required: true,

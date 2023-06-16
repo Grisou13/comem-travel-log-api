@@ -411,6 +411,7 @@ router.delete(
  * @apiSuccess (JSON Response Body) {String{36}} tripId The identifier of the trip during which the place was visited.
  * @apiSuccess (JSON Response Body) {String{47}} tripHref A hyperlink reference to the trip during which the place was visited.
  * @apiSuccess (JSON Response Body) {String{10..500}} [pictureUrl] A URL to a picture of the place.
+ * @apiSuccess (JSON Response Body) {number} order The order in which this place is put in the trip
  * @apiSuccess (JSON Response Body) {Date} createdAt The date at which the place was created.
  * @apiSuccess (JSON Response Body) {Date} updatedAt The date at which the place was last modified.
  */

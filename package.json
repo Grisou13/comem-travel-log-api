@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run docs:clean && npm run docs:build && concurrently \"npm run start:dev\" \"npm run docs:serve\" \"npm run docs:watch\"",
+    "dev": "npm run docs:clean && npm run docs:build && concurrently \"npm run start:dev -- --inspect-brk\" \"npm run docs:serve\" \"npm run docs:watch\"",
     "docs:build": "apidoc -i api -o docs",
     "docs:clean": "rimraf docs",
     "docs:serve": "node scripts/serve-docs.js",
