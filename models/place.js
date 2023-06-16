@@ -117,7 +117,11 @@ placeSchema.methods.toJSON = function (options = {}) {
 };
 
 placeSchema.statics.apiResource = "/api/places";
-placeSchema.statics.editableProperties = Object.keys(def);
+placeSchema.statics.editableProperties = [
+  ...Object.keys(def),
+  "tripId",
+  "tripHref",
+];
 
 async function validateNameAvailable(value) {
   if (!value || !this.trip) {

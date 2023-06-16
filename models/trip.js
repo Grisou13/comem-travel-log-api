@@ -72,7 +72,11 @@ tripSchema.methods.toJSON = function (options = {}) {
 };
 
 tripSchema.statics.apiResource = "/api/trips";
-tripSchema.statics.editableProperties = Object.keys(def);
+tripSchema.statics.editableProperties = [
+  ...Object.keys(def),
+  "userId",
+  "userHref",
+];
 
 // Cascade delete
 tripSchema.pre("remove", async function () {
