@@ -55,6 +55,13 @@ const def = {
       },
     },
   },
+  infos: {
+    relatedToPlace: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
   pictureUrl: {
     type: String,
     minlength: 10,
