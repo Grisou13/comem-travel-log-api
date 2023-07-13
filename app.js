@@ -15,7 +15,7 @@ const expressLogger = config.logger("express");
 app.use(connectLogger(expressLogger, { level: "trace" }));
 
 // Parse the body of JSON requests
-app.use(express.json({ limit: "1m" }));
+app.use(express.json({ limit: "50mb" }));
 
 // Allow CORS (if enabled)
 if (config.cors) {
