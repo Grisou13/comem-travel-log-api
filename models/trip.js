@@ -20,8 +20,8 @@ const def = {
   title: {
     type: String,
     required: true,
-    unique: true,
-    uniqueValidator: true,
+    // unique: true,
+    // uniqueValidator: true,
     minlength: 3,
     maxlength: 100,
   },

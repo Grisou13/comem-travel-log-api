@@ -22,11 +22,11 @@ const def = {
     required: true,
     minlength: 3,
     maxlength: 100,
-    validate: {
-      validator: validateNameAvailable,
-      message: 'There is already a place named "{VALUE}" in this trip',
-      type: "unique",
-    },
+    // validate: {
+    //   validator: validateNameAvailable,
+    //   message: 'There is already a place named "{VALUE}" in this trip',
+    //   type: "unique",
+    // },
   },
   order: {
     type: Number,
