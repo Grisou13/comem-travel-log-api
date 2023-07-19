@@ -61,6 +61,11 @@ const def = {
       required: false,
       default: "",
     },
+    misc_id: {
+      type: String,
+      required: false,
+      default: "",
+    },
   },
   pictureUrl: {
     type: String,
