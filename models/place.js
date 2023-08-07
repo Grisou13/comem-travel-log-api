@@ -61,6 +61,11 @@ const def = {
       required: false,
       default: "",
     },
+    category_ids: {
+      type: Object,
+      required: false,
+      default: [],
+    },
     misc_id: {
       type: String,
       required: false,
@@ -77,9 +82,11 @@ const def = {
     type: Object,
     distance: Number,
     previous: {
+      default: {},
       type: Object,
     },
     next: {
+      default: {},
       type: Object,
     },
   },
